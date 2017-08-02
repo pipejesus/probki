@@ -1,6 +1,7 @@
 <?php
 
 // Próbka 1: kawałek mini-aplikacji opartej o Slim PHP Framework
+// wykorzystującej Allegro Webapi
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
