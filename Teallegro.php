@@ -35,14 +35,14 @@ class Teallegro {
     
     public function run() {
 		
-        $this->registerLogger();
-        $this->registerDB();
-        $this->registerAllegro();
-		$this->registerDataAccessModel();
-        $this->registerControllers();
-		$this->registerMiddlewares();
-        $this->registerRoutes();        
-        $this->slimApp->run();
+	$this->registerLogger();
+	$this->registerDB();
+	$this->registerAllegro();
+	$this->registerDataAccessModel();
+	$this->registerControllers();
+	$this->registerMiddlewares();
+	$this->registerRoutes();        
+	$this->slimApp->run();
 		
     }
     
@@ -50,17 +50,17 @@ class Teallegro {
 		
         $this->slimContainer['db'] = function($c) {
 			
-            $database = new Medoo\Medoo( array(
-                'database_type' => 'mysql',
-                'database_name' => $c['settings']['db']['name'],
-                'server' 		=> $c['settings']['db']['host'],
-                'username' 		=> $c['settings']['db']['user'],
-                'password' 		=> $c['settings']['db']['pass'],
-                'charset' 		=> $c['settings']['db']['charset'],
-                'port' 			=> $c['settings']['db']['port'],
-            ));			
-			$database->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);            
-    		return $database;
+		$database = new Medoo\Medoo( array(
+			'database_type' => 'mysql',
+			'database_name' => $c['settings']['db']['name'],
+			'server' 		=> $c['settings']['db']['host'],
+			'username' 		=> $c['settings']['db']['user'],
+			'password' 		=> $c['settings']['db']['pass'],
+			'charset' 		=> $c['settings']['db']['charset'],
+			'port' 			=> $c['settings']['db']['port'],
+		));			
+		$database->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);            
+		return $database;
 		
         };
 		
@@ -68,55 +68,55 @@ class Teallegro {
     
     private function registerAllegro() {
 		
-		$this->slimContainer['allegro'] = function($c) {            
-			$allegro = new Awrapper($this->slimContainer, $c['settings']['allegro']['webapi_key']);
-            return $allegro;
+	$this->slimContainer['allegro'] = function($c) {            
+		$allegro = new Awrapper($this->slimContainer, $c['settings']['allegro']['webapi_key']);
+            	return $allegro;
         };
 		
     }
     
     private function registerLogger() {        
 		
-		$this->slimContainer['logger'] = function($c) {
-            $logger = new \Monolog\Logger('Teallegro');
-            $file_handler = new \Monolog\Handler\StreamHandler( TEAFRAMEWORK . "logs/app.log");
-            $logger->pushHandler($file_handler);
-            return $logger;
+	$this->slimContainer['logger'] = function($c) {
+		$logger = new \Monolog\Logger('Teallegro');
+		$file_handler = new \Monolog\Handler\StreamHandler( TEAFRAMEWORK . "logs/app.log");
+		$logger->pushHandler($file_handler);
+		return $logger;
         };
 		
     }
 	
 	private function registerDataAccessModel() {
-		
+
 		$this->slimContainer['dam'] = function($c) {
 			$dataAccessModel = new DataAccessModel($this->slimContainer);
 			return $dataAccessModel;
 		};
-		
+
 	}
     
-    private function registerControllers() {		
-        
+	private function registerControllers() {		
+
 		$this->registerApiController();
-		
-    }
+
+	}
     
-    private function registerApiController() {
-		
+	private function registerApiController() {
+
 		$this->slimContainer['ApiController'] = function($c) {            
-            return new ApiController($this->slimContainer);
-        };
-		
-    }
+			return new ApiController($this->slimContainer);
+		};
+
+	}
     
-    private function registerRoutes() {        
-        
+	private function registerRoutes() {        
+
 		$this->slimApp->get( '/api/categories[/{parent_id:[0-9]+}]', \ApiController::class . ':getCategories' );
-        $this->slimApp->get( '/api/items/scrape', \ApiController::class . ':scrapeItems' );
+		$this->slimApp->get( '/api/items/scrape', \ApiController::class . ':scrapeItems' );
 		$this->slimApp->get( '/api/items', \ApiController::class . ':getItems' );
 		$this->slimApp->get( '/api/lastlogin', \ApiController::class . ':getLastLogin' );
-		
-    }
+
+	}
 	
 	private function registerMiddlewares() {
 		
