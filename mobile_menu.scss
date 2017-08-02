@@ -1,0 +1,107 @@
+// Probka 3: SCSS (używam autoprefixera)
+// Menu boczne przesuwające całą stronę, możliwość dodanie dowolnie długiej treści do menu (automatyczny scroll)
+
+.everything-container {
+
+    background: color(bg-site);
+    overflow-x: hidden;
+    width: 100%;
+    display: block;
+    position: relative;
+
+    .everything-container--inner {        
+        transition: all 0.35s ease-out;
+        transform: translate3d(0,0,0);
+        width: 100%;
+        left: 0;
+        position: relative;
+
+        padding-top: size(header-height);    
+
+        @include breakpoint(bp(md-from)) {
+            padding-top: size(header-height-md);
+        }
+
+        .site-scrolled & {
+            @include breakpoint(bp(md-from)) {
+                padding-top: size(header-height-md-scrolled);
+            }        
+        }        
+    }    
+}
+
+.site-off-canvas-menu {
+    
+    width: size(menu-width);
+    transform: translate3d(0,0,0);
+    left: (size(menu-width) * -1);
+    position: fixed;
+    top: 0;
+
+    @include breakpoint(bp(md-from)) {
+        width: size(menu-width-md);
+        padding-top: size(header-height-md);
+        left: (size(menu-width-md) * -1);
+    }
+
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+    background: color(bg-light);
+    transition: all 0.35s ease-out;
+    padding-top: size(header-height);
+    padding-left: $gutter-width;
+    padding-right: $gutter-width;
+
+    .site-scrolled & {
+        @include breakpoint(bp(md-from)) {
+            padding-top: size(header-height-md-scrolled);
+        }        
+    }
+}
+
+.menu-opened {
+    .everything-container {
+        .everything-container--inner {
+            left: size(menu-width);
+            @include breakpoint(bp(md-from)) {
+                left: size(menu-width-md);
+            }
+        }
+    }
+    .site-main-header {
+        right: (size(menu-width) * -1);
+        @include breakpoint(bp(md-from)) {
+            right: (size(menu-width-md) * -1);
+        }
+    }
+    .site-off-canvas-menu {
+        left: 0;
+    }
+}
+
+.nav-trigger {
+    position: fixed;
+    display: block;
+    top: (size(header-height) / 2);
+    left: $gutter-width;
+    transform: translateY(-50%);
+    transition: top 0.35s ease-out;
+
+    @include breakpoint(bp(md-from)) {
+        top: (size(header-height-md) / 2);        
+    }
+
+    .site-scrolled & {
+        @include breakpoint(bp(md-from)) {
+            top: (size(header-height-md-scrolled) / 2);        
+        }
+    }    
+
+    z-index: 999;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");
+    background-size: contain;
+}
