@@ -1,5 +1,7 @@
 <?php
 
+// Próbka 1: kawałek mini-aplikacji opartej o Slim PHP Framework
+
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
